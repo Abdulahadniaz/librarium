@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import api from "./fetch";
+import Book from "./book";
+
+const url = "https://61ea80297bc0550017bc67b8.mockapi.io/api/v1/books";
 
 function App() {
+  const [books, setBooks] = useState<Book[]>([]);
+
+  useEffect(() => {
+    async function fetchBooks(url: string) {
+      try {
+        const data = await api<Array<Book>>(url);
+        setBooks(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchBooks(url);
+  }, []);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ul>
+        {books.map((book) => {
+          return <li key={book.id}>{book.title}</li>;
+        })}
+      </ul>
     </div>
   );
 }

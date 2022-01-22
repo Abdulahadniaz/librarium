@@ -1,6 +1,6 @@
-export default interface Book {
+interface Book {
   id: number;
-  publishedAt: Date;
+  publishedAt: string;
   title: string;
   genre: string;
   author: string;

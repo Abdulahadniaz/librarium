@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import BookItem from "../components/BookItem";
 import { api, useDebounce, useLocalStorage } from "../util";
 
@@ -8,6 +9,7 @@ function HomePage() {
   const [books, setBooks] = useState<Book[]>([]);
   const [titleFilter, setTitleFilter] = useLocalStorage("title", "");
   const debouncedTitle = useDebounce(titleFilter, 500);
+  const history = useHistory();
 
   const fetchBooks = async (url: string) => {
     try {
@@ -27,6 +29,12 @@ function HomePage() {
 
   return (
     <div>
+      <nav>
+        <ul>
+          <li onClick={() => history.push("/")}>Home</li>
+          <li onClick={() => history.push("/cart")}>Cart</li>
+        </ul>
+      </nav>
       <input
         type="text"
         value={titleFilter}

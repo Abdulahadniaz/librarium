@@ -6,3 +6,8 @@ interface Book {
   author: string;
   price: number;
 }
+
+interface Order {
+  id: number,
+  books: Book[];
+}

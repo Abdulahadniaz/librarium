@@ -29,10 +29,12 @@ function HomePage() {
 
   return (
     <div>
+      {/* TODO: make this a component */}
       <nav>
         <ul>
           <li onClick={() => history.push("/")}>Home</li>
           <li onClick={() => history.push("/cart")}>Cart</li>
+          <li onClick={() => history.push("/orders")}>Orders</li>
         </ul>
       </nav>
       <input

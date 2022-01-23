@@ -12,6 +12,7 @@ const initialState: CartState = {
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
+  // TODO: rename actions more meaningfully
   reducers: {
     add: (state, action: PayloadAction<Book>) => {
       const found = state.cart.filter((book) => book.id === action.payload.id);
@@ -22,10 +23,13 @@ export const cartSlice = createSlice({
     remove: (state, action: PayloadAction<number>) => {
       state.cart = state.cart.filter((book) => book.id !== action.payload);
     },
+    clear: (state) => {
+      state.cart = [];
+    },
   },
 });
 
-export const { add, remove } = cartSlice.actions;
+export const { add, remove, clear } = cartSlice.actions;
 
 export const selectCart = (state: RootState) => state.cart.cart;
 

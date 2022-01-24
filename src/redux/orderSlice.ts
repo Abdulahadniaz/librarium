@@ -15,6 +15,7 @@ export const orderSlice = createSlice({
   reducers: {
     placeOrder: (state, action: PayloadAction<Order>) => {
       state.orders.push(action.payload);
+      window.alert("Order Placed!");
     },
   },
 });

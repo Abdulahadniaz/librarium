@@ -1,6 +1,7 @@
 import React from "react";
 import { add, selectCart } from "../redux/cartSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import "./BookItem.css";
 
 interface BookItemProps {
   book: Book;
@@ -11,12 +12,27 @@ function BookItem({ book }: BookItemProps) {
   const dispatch = useAppDispatch();
 
   return (
-    <div>
-      <h2>{book.title}</h2>
-      <h3>{book.author}</h3>
-      <p>{book.price}</p>
-      <p>{book.publishedAt}</p>
-      <button onClick={() => dispatch(add(book))}>Add to Cart</button>
+    <div className="card">
+      <div className="container">
+        <p>
+          <b>Book Title: </b>
+          <i>{book.title}</i>
+        </p>
+        <p>
+          <b>Author: </b>
+          <i>{book.author}</i>
+        </p>
+        <p>
+          <b>Price: </b>${book.price}
+        </p>
+        <p>
+          <b>Published At: </b>
+          <i>{book.publishedAt.split("T")[0]}</i>
+        </p>
+        <button className="button-17" onClick={() => dispatch(add(book))}>
+          Add to Cart
+        </button>
+      </div>
     </div>
   );
 }

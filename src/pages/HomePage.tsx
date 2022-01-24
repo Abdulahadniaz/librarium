@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import BookItem from "../components/BookItem";
+import NavBar from "../components/NavBar";
 import { api, useDebounce, useLocalStorage } from "../util";
+import "./HomePage.css";
 
 const url = "https://61ea80297bc0550017bc67b8.mockapi.io/api/v1/books";
 
@@ -9,17 +10,20 @@ function HomePage() {
   const [books, setBooks] = useState<Book[]>([]);
   const [titleFilter, setTitleFilter] = useLocalStorage("title", "");
   const debouncedTitle = useDebounce(titleFilter, 500);
-  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fetchBooks = async (url: string) => {
     try {
+      setIsLoading(true);
       const data = await api<Array<Book>>(url);
       setBooks(data);
-    } catch (error) {
-      console.log(error);
+      setIsLoading(false);
+    } catch (error: any) {
+      setErrorMessage(error.message);
+      setIsLoading(false);
     }
   };
-
   useEffect(() => {
     const newUrl = new URL(url);
     newUrl.searchParams.set("title", titleFilter);
@@ -29,24 +33,24 @@ function HomePage() {
 
   return (
     <div>
-      {/* TODO: make this a component */}
-      <nav>
-        <ul>
-          <li onClick={() => history.push("/")}>Home</li>
-          <li onClick={() => history.push("/cart")}>Cart</li>
-          <li onClick={() => history.push("/orders")}>Orders</li>
-        </ul>
-      </nav>
+      <NavBar />
       <input
+        className="search-box"
         type="text"
         value={titleFilter}
+        placeholder="Search by book title"
         onChange={(e) => setTitleFilter(e.target.value)}
       />
-      <div>
-        {books.map((book) => (
-          <BookItem key={book.id} book={book} />
-        ))}
-      </div>
+      {errorMessage && <p>Failed to fetch books. Error: {errorMessage}</p>}
+      {isLoading ? (
+        <div className="loader"></div>
+      ) : (
+        <div>
+          {books.map((book) => (
+            <BookItem key={book.id} book={book} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

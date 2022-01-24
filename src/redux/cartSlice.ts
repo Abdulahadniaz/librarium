@@ -18,10 +18,12 @@ export const cartSlice = createSlice({
       const found = state.cart.filter((book) => book.id === action.payload.id);
       if (found.length === 0) {
         state.cart.push(action.payload);
+        window.alert("Nice! Item added to Cart");
       }
     },
     remove: (state, action: PayloadAction<number>) => {
       state.cart = state.cart.filter((book) => book.id !== action.payload);
+      window.alert("Item removed from the cart");
     },
     clear: (state) => {
       state.cart = [];

@@ -1,33 +1,42 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { clear, remove, selectCart } from "../redux/cartSlice";
+import NavBar from "../components/NavBar";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { placeOrder, selectOrders } from "../redux/orderSlice";
+import "./OrderPage.css";
 
 function OrderPage() {
   const orders = useAppSelector(selectOrders);
-  const dispatch = useAppDispatch();
-  const history = useHistory();
 
   return (
     <div>
-      <nav>
-        <ul>
-          <li onClick={() => history.push("/")}>Home</li>
-          <li onClick={() => history.push("/cart")}>Cart</li>
-          <li onClick={() => history.push("/orders")}>Orders</li>
-        </ul>
-      </nav>
-      <div>{orders.length} orders places</div>
+      <NavBar />
+      <div className="order-box">
+        <b>{orders.length}</b> orders placed
+      </div>
       {orders.map((order) => (
         <div>
-          <div>order id: {order.id}</div>
-          {order.books.map((book) => (
-            <div>
-              <p>{book.title}</p>
-              <p>{book.price}</p>
-            </div>
-          ))}
+          <div>
+            <b>order id: </b>
+            {order.id}
+          </div>
+          <div className="order-block">
+            {order.books.map((book) => (
+              <div key={book.id} className="order-card">
+                <div className="order-container">
+                  <p>
+                    <b>Book Title: </b>
+                    <i>{book.title}</i>
+                  </p>
+                  <p>
+                    <b>Price: </b>${book.price}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="order-value">
+            <h3>Order Amount: ${order.amount}</h3>
+          </div>
         </div>
       ))}
     </div>

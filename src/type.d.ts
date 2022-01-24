@@ -5,9 +5,11 @@ interface Book {
   genre: string;
   author: string;
   price: number;
+  booksInCart: number;
 }
 
 interface Order {
-  id: number,
+  id: number;
   books: Book[];
+  amount: number;
 }
